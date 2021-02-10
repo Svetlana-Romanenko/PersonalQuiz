@@ -264,11 +264,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Вопрос №" id="fNW-ZA-uJh">
-                        <barButtonItem key="rightBarButtonItem" title="Item" id="q7M-3J-Lkm">
-                            <connections>
-                                <segue destination="Txn-GC-afs" kind="show" id="mYB-UV-Tzg"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" id="q7M-3J-Lkm"/>
                     </navigationItem>
                     <connections>
                         <outlet property="multipleStackView" destination="Uza-Si-43E" id="9vF-eP-fdG"/>
@@ -339,6 +335,10 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="descriptionLabel" destination="ntF-J1-Zjs" id="6BG-Qm-xaf"/>
+                        <outlet property="emojiLabel" destination="y3W-tP-55h" id="IM2-fG-rdg"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bHm-XD-jEy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="U7s-ur-UA2" userLabel="Exit" sceneMemberID="exit"/>
@@ -364,9 +364,6 @@
             <point key="canvasLocation" x="844" y="99"/>
         </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="VM0-3S-mHf"/>
-    </inferredMetricsTieBreakers>
     <resources>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

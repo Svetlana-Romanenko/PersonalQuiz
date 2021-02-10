@@ -14,8 +14,8 @@ class QuestionsViewController: UIViewController {
     @IBOutlet var rangedSlider: UISlider! {
         didSet {
             let answerCount = Float(currentAnswers.count - 1)
-            rangedSlider.value = answerCount / 2
             rangedSlider.maximumValue = answerCount
+            rangedSlider.value = answerCount / 2
         }
     }
     
@@ -41,7 +41,9 @@ class QuestionsViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
+        let resultVC = segue.destination as! ResultsViewController
+        resultVC.answers = answersChoosen
+        self.navigationItem.setHidesBackButton(true, animated: false)
     }
     
     @IBAction func singleButtonAnswerPressed(_ sender: UIButton) {
@@ -57,7 +59,6 @@ class QuestionsViewController: UIViewController {
                 answersChoosen.append(answer)
             }
         }
-        
         nextQuestion()
     }
     
@@ -72,27 +73,20 @@ class QuestionsViewController: UIViewController {
 extension QuestionsViewController {
     private func updateUI() {
         
-        // hide everything
         for stackView in [singleStackView, multipleStackView, rangedStackView] {
             stackView?.isHidden = true
         }
         
-        // get current question
         let currentQuestion = questions[questionIndex]
         
-        // set current question for question label
         questionLabel.text = currentQuestion.text
         
-        // calculate progress
         let totalProgress = Float(questionIndex) / Float(questions.count)
         
-        //set progress for questionProgressView
         questionProgressView.setProgress(totalProgress, animated: true)
         
-        // set navigation title
         title = "Вопрос № \(questionIndex + 1) из \(questions.count)"
         
-        // show stacks corresponding to question type
         showCurrentAnswers(for: currentQuestion.type)
     }
     
@@ -104,11 +98,6 @@ extension QuestionsViewController {
         }
     }
     
-    /// Show single stack view
-    ///
-    /// - Parameter answer: array with answers
-    ///
-    /// Show single stack view with answers for curreent question
     private func showSingleStackView(with answers: [Answer]) {
         singleStackView.isHidden = false
         
