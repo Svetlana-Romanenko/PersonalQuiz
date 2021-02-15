@@ -37,13 +37,14 @@ class QuestionsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        navigationItem.setHidesBackButton(true, animated: false)
         updateUI()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let resultVC = segue.destination as! ResultsViewController
         resultVC.answers = answersChoosen
-        self.navigationItem.setHidesBackButton(true, animated: false)
     }
     
     @IBAction func singleButtonAnswerPressed(_ sender: UIButton) {

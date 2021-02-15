@@ -17,37 +17,46 @@ class ResultsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        emojiLabel.text = "Вы - " + String(showResults().rawValue)
-        descriptionLabel.text = showResults().definition
-        
-        self.navigationItem.setHidesBackButton(true, animated: false)
+        navigationItem.setHidesBackButton(true, animated: false)
     }
 }
 
 extension ResultsViewController {
-    private func showResults() -> AnimalType {
-        var dogCount = 0
-        var catCount = 0
-        var rabbitCount = 0
-        var turtleCount = 0
+    private func showResults() {
         
-        for answer in answers {
-            switch answer.type {
-            case .dog: dogCount+=1
-            case .cat: catCount+=1
-            case .rabbit: rabbitCount+=1
-            case .turtle: turtleCount+=1
+        var dictionaryOfTypes: [AnimalType: Int] = [:]
+        let animals = answers.map{ $0.type }
+        
+        // Способ №1
+        for animal in animals {
+            if let animalTypeCount = dictionaryOfTypes[animal] {
+                dictionaryOfTypes.updateValue(animalTypeCount+1, forKey: animal)
+            } else {
+                dictionaryOfTypes[animal] = 1
             }
         }
         
-        var dictionaryOfTypes: [AnimalType: Int] = [:]
-        dictionaryOfTypes[.dog] = dogCount
-        dictionaryOfTypes[.cat] = catCount
-        dictionaryOfTypes[.rabbit] = rabbitCount
-        dictionaryOfTypes[.turtle] = turtleCount
-
-        let character = dictionaryOfTypes.max {firstAnswer, secondAnswer in firstAnswer.value < secondAnswer.value }
+        // Способ №2
+        /*
+        for aninal in animals {
+            dictionaryOfTypes[aninal] = (dictionaryOfTypes[aninal] ?? 0) + 1
+        }
+        */
+        let character = dictionaryOfTypes.sorted { $0.value > $1.value }
+        guard let currentAnimal = character.first?.key else { return }
         
-        return character!.key
-}
+        // Способ №3
+        /*
+         let currentType = Dictionary(grouping: answers) { $0.type }
+         .sorted { $0.value.count > $1.value.count }
+         .first?.key
+         */
+        updateUI(with: currentAnimal)
+    }
+    
+    private func updateUI(with animal: AnimalType?) {
+        
+        emojiLabel.text = "Вы - \(animal?.rawValue ?? "🐶")!"
+        descriptionLabel.text = animal?.definition ?? ""
+    }
 }
